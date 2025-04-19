@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import { handler, getFile } from "./handler";
+import { handler, getFile, notFoundHandler } from "./handler";
 import { join } from "path"; 
 
 
@@ -13,13 +13,13 @@ expressApp.set( "views", join( __dirname, "views" ) );
 expressApp.set( "view engine", "ejs" );
 
 expressApp.get("/", handler)
+expressApp.get("/favicon.ico", notFoundHandler)
 expressApp.get("*splat", getFile)
 
 // try{
 // }catch(error){
 //     console.log(error);
 // }
-
 
 expressApp.listen(PORT, () => {
     console.log(`Listening on: ${PORT}`);

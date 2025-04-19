@@ -1,4 +1,5 @@
-dist/js/
+dist/
+!dist/views/
 node_modules
 *.md
 !README.md

@@ -1,8 +1,8 @@
-import { Dirent, createWriteStream } from "node:fs";
+import { Dirent, createWriteStream, createReadStream } from "node:fs";
 import { opendir, readdir } from "node:fs/promises";
 import { FileEntry } from "./FineEntry";
-import { get } from "node:http";
-import { Readable } from "node:stream";
+// import { get } from "node:http";
+// import { Readable } from "node:stream";
 
 const logSeqDir: string = "/home/darth-roman/Documents/logsec/"
 
@@ -32,33 +32,12 @@ export const readADirectory = async (dir: Dirent) => {
     }
 }
 
-export const downloadAFile = async (path: string, data: any) => {
+export const downloadAFile = async (path: string, fileName: string, data: any) => {
     try{
-        const fileMD = createWriteStream("newfile.md")
-        const readable = new Readable({
-            read(size) {
-                return true
-            },
-        })
+        const fileMD = createWriteStream(fileName)
+        const readable = createReadStream(path, {encoding: "utf-8"})
 
         readable.pipe(fileMD)
-
-        fileMD.on("data", (data) => {
-            fileMD.on("finish", ()=>{
-                fileMD.close()
-            })
-        })
-
-        // const request = get(path, (response) => {
-        //     response.pipe(fileMD)
-
-        //     fileMD.on("finish", () => {
-        //         fileMD.close()
-        //         console.log(fileMD);
-        //     })
-        // })
-
-        console.log(fileMD);
 
     }catch(error){
         console.log(error);
